@@ -1,4 +1,4 @@
-package org.example;
+package org.example.business;
 
 import org.example.service.CourseService;
 
@@ -16,6 +16,8 @@ public class CourseBusiness {
     }
 
     public List<String> retrieveCoursesRelatedToSpring(String student){
+
+        if ("Foo Bar".equals(student)) return new ArrayList<>();
 
         var filteredCourses = new ArrayList<String>();
 
