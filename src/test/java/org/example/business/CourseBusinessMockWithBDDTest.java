@@ -2,6 +2,7 @@ package org.example.business;
 
 import org.example.service.CourseService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -57,6 +58,23 @@ public class CourseBusinessMockWithBDDTest {
     	// Then / Assert
         assertThat(filteredCourses.size(),is(4));
 
+    }
+
+    // test[System Under Test]_[Condition or State Change]_[Expected Result]
+    @DisplayName("Delete Courses Not Related to Spring Using Mockito sould call Method")
+    @Test
+    void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethodDeleteCourse() {
+    	// Given / Arrange
+        given(mockService.retrieveCourses("Leandro")).willReturn(courses);
+    	// When / Act
+        courseBusiness.deleteCoursesNotRelatedToSpring("Leandro");
+
+    	// Then / Assert
+//        verify(mockService).deleteCourse("Spotify Engineering Culture Desmistificado");
+//        verify(mockService, times(1)).deleteCourse("Spotify Engineering Culture Desmistificado");
+//        verify(mockService, atLeast(2)).deleteCourse("Spotify Engineering Culture Desmistificado");
+        verify(mockService, atLeastOnce()).deleteCourse("Spotify Engineering Culture Desmistificado");
+        verify(mockService, never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
     }
 
 }
