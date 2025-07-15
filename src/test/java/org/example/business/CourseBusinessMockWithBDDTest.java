@@ -77,4 +77,21 @@ public class CourseBusinessMockWithBDDTest {
         verify(mockService, never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
     }
 
+    @DisplayName("Delete Courses Not Related to Spring Using Mockito sould call Method V2")
+    @Test
+    void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethodDeleteCourseV2() {
+        // Given / Arrange
+        given(mockService.retrieveCourses("Leandro")).willReturn(courses);
+        // When / Act
+        courseBusiness.deleteCoursesNotRelatedToSpring("Leandro");
+
+        // Then / Assert
+        then(mockService)
+                .should()
+                .deleteCourse("Spotify Engineering Culture Desmistificado");
+        then(mockService)
+                .should(never())
+                .deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
+    }
+
 }
