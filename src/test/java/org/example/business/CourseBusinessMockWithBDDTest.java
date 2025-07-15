@@ -4,6 +4,7 @@ import org.example.service.CourseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class CourseBusinessMockWithBDDTest {
     }
 
     // test[System Under Test]_[Condition or State Change]_[Expected Result]
-    @DisplayName("Delete Courses Not Related to Spring Using Mockito sould call Method")
+    @DisplayName("Delete Courses Not Related to Spring Using Mockito should call Method")
     @Test
     void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethodDeleteCourse() {
     	// Given / Arrange
@@ -77,21 +78,48 @@ public class CourseBusinessMockWithBDDTest {
         verify(mockService, never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
     }
 
-    @DisplayName("Delete Courses Not Related to Spring Using Mockito sould call Method V2")
+    @DisplayName("Delete Courses Not Related to Spring Using Mockito should call Method V2")
     @Test
     void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethodDeleteCourseV2() {
         // Given / Arrange
         given(mockService.retrieveCourses("Leandro")).willReturn(courses);
+        String spotifyEngineerCourse = "Spotify Engineering Culture Desmistificado";
+        String springCourse = "Microsserviços do 0 com Spring Cloud, Spring Boot e Docker";
+
         // When / Act
         courseBusiness.deleteCoursesNotRelatedToSpring("Leandro");
 
         // Then / Assert
         then(mockService)
                 .should()
-                .deleteCourse("Spotify Engineering Culture Desmistificado");
+                .deleteCourse(spotifyEngineerCourse);
         then(mockService)
                 .should(never())
-                .deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
+                .deleteCourse(springCourse);
+    }
+    @DisplayName("Delete Courses Not Related to Spring Capturing Arguments should call Method")
+    @Test
+    void testDeleteCoursesNotRelatedToSpring_CapturingArguments_Should_CallMethodDeleteCourse() {
+        // Given / Arrange
+
+//        courses = List.of(
+//                "Spotify Engineering Culture Desmistificado",
+//                "Microsserviços do 0 com Spring Cloud, Spring Boot e Docker"
+//        );
+
+        given(mockService.retrieveCourses("Leandro")).willReturn(courses);
+        String spotifyEngineerCourse = "Spotify Engineering Culture Desmistificado";
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+        // When / Act
+        courseBusiness.deleteCoursesNotRelatedToSpring("Leandro");
+
+        // Then / Assert
+        then(mockService)
+                .should(times(7))
+                .deleteCourse(captor.capture());
+        assertThat(captor.getAllValues().size(), is(7));
     }
 
 }
