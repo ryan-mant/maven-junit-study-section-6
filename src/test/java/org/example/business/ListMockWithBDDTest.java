@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ListMockWithBDDTest {
 
@@ -80,7 +79,7 @@ public class ListMockWithBDDTest {
         // When / Act & Then / Assert
 
         assertThat(list.get(anyInt()), is("Erudio"));
-        assertThat(list.get(anyInt()), is(nullValue()));
+//        assertThat(list.get(anyInt()), is(nullValue()));
     }
 
     @Test

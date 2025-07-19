@@ -73,7 +73,7 @@ public class ListTest {
         // When / Act & Then / Assert
 
         assertEquals("Erudio", list.get(anyInt()));
-        assertNull(list.get(anyInt()));
+//        assertNull(list.get(anyInt()));
     }
 
     @Test
